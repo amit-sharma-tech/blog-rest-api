@@ -1,0 +1,62 @@
+
+### Register User
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "first_name" :   "Amit Kumar",
+    "last_name"  :   "Sharma",
+    "email"     :   "amitadd99@gmail.com",
+    "password"  :   "123456",
+    "mobile"   :   "9911798626"
+}
+
+### login User
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email" : "amitadd99@gmail.com",
+    "password": "123456"
+}
+
+### secret call
+POST http://localhost:3000/api/users/secret
+Content-Type: application/json,
+Accept: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTdjYzY5OWY5NTFhNzA0YjA2MjVhODMiLCJpYXQiOjE1ODUyMzU2Mzk0MTksImV4cCI6MTU4NTMyMjAzOTQxOX0.TDMxCi-IYV_M-rIQEvqZBgMRrbP6hH9UnAP2Usxp-9o
+
+### update role call
+POST http://localhost:3000/api/users/update_role
+Content-Type: application/json
+Accept: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTdjYzY5OWY5NTFhNzA0YjA2MjVhODMiLCJpYXQiOjE1ODUyMzU2Mzk0MTksImV4cCI6MTU4NTMyMjAzOTQxOX0.TDMxCi-IYV_M-rIQEvqZBgMRrbP6hH9UnAP2Usxp-9o
+
+{
+    "email" : "amitadd99@gmail.com",
+    "role_id"  :   1
+}
+
+### logout User
+POST http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTYxN2JiZmFmYWJkNTBmNjRkYWEzNDIiLCJpYXQiOjE1ODUxNDc0MTA3MDMsImV4cCI6MTU4NTIzMzgxMDcwM30.8MPrZZAFsorySk88dtpvTG6TcVkTnIWdzi0_55dQJWU
+
+### Blog start from here
+
+### Create blog request
+POST http://localhost:3000/api/blog/create_blog
+Content-Type: application/json
+Accept: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTdjYzY5OWY5NTFhNzA0YjA2MjVhODMiLCJpYXQiOjE1ODUyMzU2Mzk0MTksImV4cCI6MTU4NTMyMjAzOTQxOX0.TDMxCi-IYV_M-rIQEvqZBgMRrbP6hH9UnAP2Usxp-9o
+
+{
+    "title"     :   "first blog title" ,
+    "slug"      :   "first blog title",
+    "metatitle" :   "first blog title in node js",
+    "summary"   :   "This is first blog in node js, express and mongodb in REST API",
+    "content"   :   "This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API,This is first blog in node js, express and mongodb in REST API"
+}
