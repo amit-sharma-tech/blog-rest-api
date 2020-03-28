@@ -17,7 +17,7 @@ router.route('/users/login')
     .post(validateBody(schemas.loginSchema),passportSignIn,userController.signIn);
 
 router.route('/users/secret')
-    .post(passportJWT, userAuthenication.auth, userController.secret);
+    .post(validateBody(schemas.tokenSchema), userAuthenication.validate_token, userController.secret);
 
 router.route('/users/update_role')
     .post(validateBody(schemas.updateRoleSchema),passportJWT, userAuthenication.auth, userController.updateRole);
@@ -27,7 +27,7 @@ router.route('/users/update_role')
 
     
 router.route('/users/logout')
-    .post(passportJWT,userController.logout);
+    .post(validateBody(schemas.tokenSchema),userAuthenication.validate_token,userController.logout);
 
 //Blog router
 

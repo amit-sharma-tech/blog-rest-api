@@ -1,26 +1,44 @@
 const User = require('./UserModel');
 const {resp} = require('../../helpers/ResponseHelper');
 const jwt  = require('jsonwebtoken');
-/* const DataModel = require('../../helpers/DataModel');
-const FetchData = new DataModel(); */
+var CryptoJS = require("crypto-js");
+const LoginRecords = require('./LoginRecord');
+var md5 = require('md5');
+require('dotenv').config();
+
 signToken = user =>{
-    var userToken = "";
-    if(user.id.length > 0){
-        userToken = jwt.sign(
-            {
-                userId: user.id,
-                iat : new Date().getTime(), //current time
-                exp : new Date().setDate(new Date().getDate() + 1) //current time +1 day
-            }, process.env.TOKEN_SECRET,
-            /* {
-                expiresIn : "1h"
-            } */
-        );
+    return jwt.sign(
+        {
+            userId: user.id,
+            iat : new Date().getTime(), //current time
+            exp : new Date().setDate(new Date().getDate() + 1) //current time +1 day
+        }, process.env.TOKEN_SECRET,
+        /* {
+            expiresIn : "1h"
+        } */
+    );
+}
+
+initToken =  (user,ip) => 
+{
+    var ciphertext = CryptoJS.AES.encrypt(user.id+md5(ip+'BLOG'+user.id+'BLOG'), process.env.SALT).toString();
+    return ciphertext
+}
+check_token_created = (user,token) => {
+    /* var loginToken = await LoginRecord.findOne({$and:[
+            {login_token:token},
+            {user_id:user.id},
+            {is_active:1},
+            {"loginAt":{$gt:new Date(Date.now() - 24*60*60 * 1000)}}
+        ]},
+        {user_id: 1,_id:0}
+    );
+    if(!loginToken){
+        return 1;
     }
     else{
-        userToken = "";
-    }
-    return userToken
+        return 0;
+    } */
 }
 
 module.exports = {
@@ -29,7 +47,8 @@ module.exports = {
         const emailExist = await User.findOne({email:data.email});
         if(emailExist)
         {
-            return res.status(400).json(resp('ERR', 'User already exist'));
+            res.statusCode = 400;
+            res.send(resp('ERR',"User already exist",''));
         } 
         else{
             const records = new User();
@@ -41,28 +60,28 @@ module.exports = {
                 password: await records.hashPassword(data.password),
             });
             var saveUser =  await newUser.save();
-            res.status(200).json({
-                statuscode : resp('SUC'),
-                message    : "Successfully Register"
-                // token : signToken(saveUser)
-            }) ;
+            res.statusCode = 200;
+            res.send(resp('SUC',"Successfully Register",''));
         }
     },
     signIn: async(req, res, next) =>{
-        const token = signToken(req.user);
-        console.log(req.user, token + '--token');
-        res.status(200).json({
-            statuscode: resp('SUC'),
-            message: "Succesfully login",
-            token : token
+        var ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
+        const token = initToken(req.user,ip);
+        // const check_token  = check_token_created(user,token);
+        const login_data = new LoginRecords({
+            user_id     : req.user.id,
+            login_token :   token,
+            is_active   :   1
         });
+        await login_data.save();
+        res.statusCode = 200;
+        res.send(resp('SUC',"Login Success",token));
     },
     secret : async (req, res, next) =>{
-        res.status(200).json({
-            message: "Succesfully secret",
-            // token : token
-        });
+        res.statusCode = 200;
+        res.send(resp('SUC',"Succesfully secret",''));
     },
+    
     /* activate_user : async(re,res,next) => {
         const data = req.value.body;
         const emailExist = await User.findOne({email:data.email});
@@ -79,28 +98,27 @@ module.exports = {
             return res.status(400).json(resp('ERR', 'User is not found'));
         }
     }, */
+
     updateRole : async(req,res,next) => {
         const data = req.value.body;
         const emailExist = await User.findOne({email:data.email});
         if(emailExist)
         {
             await User.updateOne({_id:req.user._id},{$set:{role_id:data.role_id}});
-            res.status(200).json({
-                statuscode: resp('SUC'),
-                message:'User role has updated successfully'
-            });
+            res.statusCode = 200;
+            res.send(resp('SUC',"User role has updated successfully",''));
         } 
         else{
-            return res.status(400).json(resp('ERR', 'User is not found'));
+            res.statusCode = 400;
+            res.send(resp('ERR',"User is not found",''));
         }
     },
     logout : async(req, res, next) => {
-        await User.updateOne({_id:req.user._id},{$set :{connected : false}});
-        const token = signToken();
-        console.log(req.user, token + '--token');
-        res.status(200).json({
-            message: "Successfully logout",
-            // token : token
-        });
+        console.log(req.user_data,'request data remove');
+        await User.updateOne({_id:req.user_data.id},{$set :{connected : false}});
+        await LoginRecords.updateOne({login_token:req.value.body.token},{$set :{is_active : 0}});
+        req.user_data = {};
+        res.statusCode = 400;
+        res.send(resp('SUC',"Successfully logout",''));
     }
 }

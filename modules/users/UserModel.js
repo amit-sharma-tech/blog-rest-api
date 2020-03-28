@@ -52,6 +52,14 @@ const registerSchema = new Schema({
     connected:{
         type : Boolean,
         default : true
+    },
+    mobile_verified:{
+        type : Number,
+        default:0
+    },
+    email_verified:{
+        type:Number,
+        default:0
     }
 });
 

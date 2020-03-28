@@ -1,5 +1,5 @@
 module.exports = {
-    resp: (messageCode ,details= null) => { 
+    resp: (messageCode ,details= null,data=null) => { 
         let error = 1;
         let message = null;
         switch(messageCode){
@@ -44,10 +44,20 @@ module.exports = {
                 throw new Error('Unknow response message');
 
         }
-        return {
-            error,
-            message,
-            details
+        
+        if(error == 0){
+            return {
+                statecode : messageCode,
+                status : details,
+                data
+            }
+        }else{
+            return {
+                error : error,
+                statecode : messageCode,
+                status : details,
+                data
+            }
         }
     }
 };

@@ -54,6 +54,9 @@ module.exports = {
             email : Joi.string().email().required(),
             password : Joi.string().required(),
         }),
+        tokenSchema : Joi.object().keys({
+            token : Joi.string().required(),
+        }),
         updateRoleSchema : Joi.object().keys({
             email : Joi.string().email().required(),
             role_id :  Joi.number().required(),

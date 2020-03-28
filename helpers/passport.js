@@ -40,9 +40,12 @@ passport.use(new LocalStrategy({
     usernameField: 'email'
 }, async(email, password, done) => {
     try{
+        console.log(email, password);
         //Find the user given email
-        const user = await User.findOne({$and:[{email},{connected:true}]});
+        const user = await User.findOne({email:email});
         //if not handle it
+        console.log(user,user);
+
         if(user == null){
             done(null, false ,{ message: 'Unknown user or invalid password'} );
         }

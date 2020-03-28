@@ -2,26 +2,28 @@ const express = require('express');
 const apiRoutes  =  require('./modules/index');
 const {ENVIRONMENT} = require('./configuration/index');
 const { resp } = require('./helpers/ResponseHelper');
-// const passport = require('passport');
+// const expressip = require('express-ip');
+
 require('./connection/db');
 const app = express();
 
 // Handling invalid JSON request
 app.use(express.json(), (err, req, res, next) => {
-    if (err) {
-      return res.status(400).json(resp('BRE', err.message));
-    }
-    return next(err);
-});
-  
-// Handling invalid urlencoded request
-app.use(express.urlencoded({ extended: true }), (err, req, res, next) => {
-if (err) {
+  if (err) {
     return res.status(400).json(resp('BRE', err.message));
-}
-    return next(err);
+  }
+  return next(err);
 });
 
+// Handling invalid urlencoded request
+app.use(express.urlencoded({ extended: true }), (err, req, res, next) => {
+  if (err) {
+    return res.status(400).json(resp('BRE', err.message));
+  }
+  return next(err);
+});
+
+// app.use(expressip().getIpInfoMiddleware);
 //routers call
 app.use('/api', apiRoutes);
 

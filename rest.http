@@ -24,9 +24,12 @@ Accept: application/json
 
 ### secret call
 POST http://localhost:3000/api/users/secret
-Content-Type: application/json,
+Content-Type: application/json
 Accept: application/json
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTdjYzY5OWY5NTFhNzA0YjA2MjVhODMiLCJpYXQiOjE1ODUyMzU2Mzk0MTksImV4cCI6MTU4NTMyMjAzOTQxOX0.TDMxCi-IYV_M-rIQEvqZBgMRrbP6hH9UnAP2Usxp-9o
+
+{
+    "token" :  "U2FsdGVkX18Bp+BJFWcIaf1xpeity03/stRdzLMxbplIKzF+VjL7/fMDA+s6YgSPxMnGwbOPl5k0swanvt4ZJUgfncxKbM+cckSbLE96DiI="   
+}
 
 ### update role call
 POST http://localhost:3000/api/users/update_role
@@ -43,7 +46,11 @@ Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTdjYzY5OWY5N
 POST http://localhost:3000/api/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTYxN2JiZmFmYWJkNTBmNjRkYWEzNDIiLCJpYXQiOjE1ODUxNDc0MTA3MDMsImV4cCI6MTU4NTIzMzgxMDcwM30.8MPrZZAFsorySk88dtpvTG6TcVkTnIWdzi0_55dQJWU
+
+# Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTYxN2JiZmFmYWJkNTBmNjRkYWEzNDIiLCJpYXQiOjE1ODUxNDc0MTA3MDMsImV4cCI6MTU4NTIzMzgxMDcwM30.8MPrZZAFsorySk88dtpvTG6TcVkTnIWdzi0_55dQJWU
+{
+    "token" :  "U2FsdGVkX18Bp+BJFWcIaf1xpeity03/stRdzLMxbplIKzF+VjL7/fMDA+s6YgSPxMnGwbOPl5k0swanvt4ZJUgfncxKbM+cckSbLE96DiI="   
+}
 
 ### Blog start from here
 
