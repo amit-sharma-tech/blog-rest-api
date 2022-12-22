@@ -16,7 +16,7 @@
     "express-ip": "^1.0.4",
     "express-promise-router": "^3.0.3",
     "joi": "^14.3.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "md5": "^2.2.1",
     "mongoose": "^5.9.6",
     "mongoose-mongodb-errors": "^0.0.2",
